@@ -30,12 +30,12 @@ Projeto desenvolvido durante o **Processo seletivo - Alest Consultoria**
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
-- [Node.js][nodejs]
-- [React][reactjs]
-- [TypeScript][typescript]
+- Node.JS
+- React JS
+- TypeScript 
 - Firebase
-  - FireStore
-  - FireCloud
+  - Cloud FireStore
+  - Cloud Storage
 - Styled-components
     
 
