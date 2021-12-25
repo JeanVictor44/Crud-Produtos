@@ -1,14 +1,20 @@
 import styled from 'styled-components'
 
 export const Container = styled.div `
+    display:flex;
+    flex-direction:column;
+    justify-content: space-between;
     max-width:300px;
-    height: 250px;
-    background-color:#FFF;
+    
+    color:#FFF;
+    height: 350px;
+    background-color:#161D26;
+    text-align:center;
     img {
-        max-width:40%;
-        margin:10px auto;
-        width: auto;
-        height: auto;
+        max-width:200px;
+        max-height:100px;
+        margin:10px auto; 
+        border-radius:50%;
     }
     border-radius:15px;
     margin-bottom:20px;
@@ -16,23 +22,30 @@ export const Container = styled.div `
         display:block;
     }
 
-    i {
-        font-size:25px;
-        cursor:pointer;
-    }
+
     .fa-edit {
         color:#FF9901;
     }
     .fa-minus-circle {
-        color:#161D26;
+        color:#FFF;
     }
 `
 export const ContainerInfos = styled.div `
     margin-left:20px;
-
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
 `
+export const ContainerStarRating = styled.div `
+    margin-top:10px;
+    i {
+        font-size:20px;
+    }
+`
+
 export const Title = styled.span `
-    
+    font-size:20px;
 `
 
 export const Price = styled.span `
@@ -43,5 +56,11 @@ export const ContainerButtons = styled.div `
     margin:0px 30px;
     display:flex;
     justify-content: space-between;
-
+    flex:0.2;
+    i {
+        font-size:25px;
+        
+        cursor:pointer;
+        margin:0 auto;
+    }
 `

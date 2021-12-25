@@ -15,6 +15,7 @@ export const uploadImage = (req: Request, res:Response, next: NextFunction) => {
   if(!req.file)return next()
   
   const image = req.file
+  console.log(image)
   const fileName = `${Date.now()}.${image.originalname.split('.').pop()}`
   const file = bucket.file(fileName)
   const stream = file.createWriteStream({

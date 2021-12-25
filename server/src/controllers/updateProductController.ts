@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
-import { doc, collection, query, where, getDocs, updateDoc, setDoc} from 'firebase/firestore' 
+import { doc, collection, query, where, getDocs, setDoc} from 'firebase/firestore' 
 import { db } from '../config/firestore.config'
 
 
 export default async( req:Request, res:Response) => {
-    const urlImage = req.file ? req.file.path : null
-    const productUpdate = {
-        ...req.body,
-        urlImage
+    if(req.file){
+        console.log(req.file.path)
     }
+    const productUpdate = req.file ? { ...req.body, urlImage: req.file.path} : {...req.body}
+    
     const { name: productName } = req.params
     
     const productRef = collection(db, "produtos")
@@ -18,7 +18,7 @@ export default async( req:Request, res:Response) => {
 
 
     querySnapshot.forEach(async(document) => {
-        const docRef = doc(db, "produtos",document.id)
+        const docRef = doc(db, "produtos", document.id)
         await setDoc(docRef,productUpdate)
         return res.json(productUpdate)
     })

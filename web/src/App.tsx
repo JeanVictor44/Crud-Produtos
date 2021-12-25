@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { api } from './api/index'
 import { Header } from './components/Header'
 import { CardsSection } from './components/CardsSection'
+import Modal from './components/Modal'
 
 export type Product = {
   name:string,
@@ -14,6 +15,14 @@ export type Product = {
 
 const App = () => {
   const [ products, setProducts ] = useState<Product[]>([])
+  const [ modalIsOpen, setModalState] = useState(false)
+  const [ productModal, setProductModal] = useState({
+    name:'',
+    price:0,
+    numberOfStars:0,
+    urlImage:''
+  })
+
   useEffect(() => {
     const getProducts = async() => {
       const result = (await api.get('/list')).data
@@ -22,15 +31,13 @@ const App = () => {
     getProducts()
   }, [])
   
-  
-  if(!products.length){
-    return <h1>Carregando...</h1>
-  }
   return (
     <>
+      <Modal isOpen={modalIsOpen} closeModal={() => { setModalState(false) } } setProducts={setProducts} product={productModal}/>
       <GlobalStyle />
       <Header />
-      <CardsSection products={products} setProducts={setProducts}/>
+      <CardsSection products={products} setProducts={setProducts} openModal={() => {setModalState(true)}} setProductModal={setProductModal} /> 
+      
       
     </>
   )

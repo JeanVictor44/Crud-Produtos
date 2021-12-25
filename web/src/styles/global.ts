@@ -7,12 +7,12 @@ export default createGlobalStyle`
         box-sizing:border-box;
     }
     body {
-        background-color:#161D26;
         font-family:"Roboto", "Arial";
     }   
     img {
         display:block;
-        width:100%;
-        height:100%;
+        height:auto;
+        width:auto;        
+        object-fit: cover;
     }
 `

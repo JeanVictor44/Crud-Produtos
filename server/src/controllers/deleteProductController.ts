@@ -11,15 +11,6 @@ export default async(req:Request, res:Response) => {
 
     querySnapshot.forEach(async(document) => {
         const docRef = doc(db, "produtos",document.id)
-        try {
-            await deleteDoc(docRef)
-            return res.json({
-                ...document.data(),
-                successfull:true   
-            })
-        }catch(err) {
-            return res.json({
-                successfull:false   
-            })}
-    });
+        await deleteDoc(docRef)
+    })
 }

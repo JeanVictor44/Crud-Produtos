@@ -1,8 +1,9 @@
-import { Container, Title, Price, ContainerInfos, ContainerButtons } from './style'
-import StarRatingComponent from 'react-star-rating-component';
+import { Dispatch, SetStateAction } from 'react'
+import { Container, Title, Price, ContainerInfos, ContainerButtons, ContainerStarRating} from './style'
 import { api } from '../../api'
 import { Product } from '../../App';
-import { Dispatch, SetStateAction } from 'react'
+import { store } from 'react-notifications-component';
+import StarRatingComponent from 'react-star-rating-component';
 
 interface PropsCard{
     name:string;
@@ -10,28 +11,59 @@ interface PropsCard{
     numberOfStars:number;
     urlImage:string;
     setProducts:Dispatch<SetStateAction<Product[]>>;
+    setProductModal:Dispatch<SetStateAction<Product>>;
+    openModal:() => void;
+
 }
 
 // setAlter virar um context
-export const Card = ({ name,price, numberOfStars, urlImage, setProducts}: PropsCard) => {
+export const Card = ({ name,price, numberOfStars, urlImage, setProducts, setProductModal, openModal}: PropsCard) => {
+    const handleDelete = () => {
+        api.delete(`/product/${name}`)
+        setProducts((oldState: Product[]) => oldState.filter(product => product.name != name))
+    }
+
+    const handleDeleteNotification = () => {
+        store.addNotification({
+            title:'Deletado com sucesso',
+            message:'Produto deletado com sucesso',
+            type:'success',
+            container:'top-right',
+            dismiss: {
+                duration:5000,
+                onScreen:true
+            },
+            
+        })
+    }
     return (
         <Container>
-            <img src={urlImage} alt={name}/>
             <ContainerInfos>
                 
                 <Title >{name}</Title>
+                <img src={urlImage} alt={name}/>
                 <Price>${price}</Price>
-
-                <StarRatingComponent name='starComponent' value={numberOfStars} editing={false}/>
-
+                
+                <ContainerStarRating>
+                    <StarRatingComponent name='starComponent' value={numberOfStars} editing={false}/>
+                </ContainerStarRating>
+                
             </ContainerInfos>
 
             <ContainerButtons>
-                <i className="far fa-edit"></i>
+                <i className="far fa-edit" onClick={() =>{
+                    setProductModal({
+                        name,
+                        price,
+                        numberOfStars,
+                        urlImage
+                    })
+                    openModal() 
+                }} ></i>
                 <i className="fas fa-minus-circle" 
                    onClick={() => {
-                    api.delete(`/product/${name}`)
-                    setProducts((oldState: Product[]) => oldState.filter(product => product.name != name))
+                    handleDeleteNotification()
+                    handleDelete()
                 }} ></i>
             </ContainerButtons>
             
