@@ -11,8 +11,9 @@ export const Container = styled.div `
     background-color:#161D26;
     text-align:center;
     img {
-        max-width:200px;
-        max-height:100px;
+        width: 50%;
+        height:50%;
+        object-fit: cover;
         margin:10px auto; 
         border-radius:50%;
     }

@@ -1,21 +1,14 @@
-import { Dispatch, SetStateAction, useState} from 'react'
+import { useState, useContext} from 'react'
 import { Container, CardAdd, ContainerStarRating, InputLabel} from './style'
 import 'react-notifications-component/dist/theme.css'
 import { Card } from '../Card'
-import { Product } from '../../App'
 import { api } from '../../api'
 import { Dropzone } from '../Dropzone'
 import { store } from 'react-notifications-component';
 import StarRatingComponent from 'react-star-rating-component'
 import ReactNotification from 'react-notifications-component'
-import { AxiosResponse } from 'axios'
+import { ProductsContext } from '../../context/Products'
 
-interface PropsCardsSection {
-    products: Product[];
-    setProducts:Dispatch<SetStateAction<Product[]>>;
-    setProductModal:Dispatch<SetStateAction<Product>>;
-    openModal:() => void;
-}
 
 type BackProduct = {
     name: string,
@@ -24,7 +17,9 @@ type BackProduct = {
     image:File
 } 
 
-export const CardsSection = ({products, setProducts, setProductModal, openModal}:PropsCardsSection ) => {
+export const CardsSection = ( ) => {
+    const { products, setModified } = useContext(ProductsContext)
+
     const [ rating, setRating ] = useState(0)
     const [ price, setPrice ]= useState(0)
     const [ name, setName ] = useState('')
@@ -58,21 +53,34 @@ export const CardsSection = ({products, setProducts, setProductModal, openModal}
         })
     }
 
-    const handleCreateProduct = async(data:BackProduct):Promise<Product> => {
+    const handleAddProduct = async () => { 
+        const isSomeFieldEmpty = !selectedFile || !name
+        if(isSomeFieldEmpty){
+            handleErrorNotification()
+            return
+        }
+        handleCreateProduct({name, image:selectedFile, price, numberOfStars:rating})
+        handleSuccessNotification()
+        
+        // Reset 
+        setName('')
+        setPrice(0)
+        setRating(0)
+    }
+
+    const handleCreateProduct = async(data:BackProduct)=> {
         const formData = new FormData();
         formData.append("image", data.image)
         formData.append("name", data.name)
         formData.append("price", String(data.price))
         formData.append("numberOfStars", String(data.numberOfStars))
 
-        const response = await api.post(`/product`, formData, {
+        await api.post(`/product`, formData, {
             headers:{
                 'Content-Type': 'multipart/form-data'            
             }
         })
-        
-        //return the product data
-        return response.data
+        setModified((oldState) => !oldState)
     }
 
     return (
@@ -100,27 +108,11 @@ export const CardsSection = ({products, setProducts, setProductModal, openModal}
                     />
             </ContainerStarRating>
 
-                <button onClick={async() => { 
-                    const isSomeFieldEmpty = !selectedFile || !name
-                    if(isSomeFieldEmpty){
-                        handleErrorNotification()
-                        return
-                    }
-
-                    const newProduct = await handleCreateProduct({name, image:selectedFile, price, numberOfStars:rating})
-                    console.log(newProduct)
-                    setProducts((products) => [...products, newProduct]) 
-                    handleSuccessNotification()
-                    
-                    // Reset 
-                    setName('')
-                    setPrice(0)
-                    setRating(0)
-                }}>Adicionar</button> 
+                <button onClick={handleAddProduct}> Adicionar </button> 
             </CardAdd>
             {
-                products.length > 0 ? 
-                products.map(product => <Card setProducts={setProducts} {...product} openModal={openModal} setProductModal={setProductModal}/>) : null  
+                products.length > 0  ? 
+                products.map(product => <Card {...product} />) : null  
                 
             }
         </Container>

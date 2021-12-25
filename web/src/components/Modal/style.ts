@@ -27,7 +27,6 @@ export const CardModal = styled.div`
     }
     img {
         max-width:60%;
-        
 
     }
     button {

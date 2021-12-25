@@ -23,6 +23,13 @@ Projeto desenvolvido durante o **Processo seletivo - Alest Consultoria**
 ## :art: Layout
 
 ### Web
+<p align="center" style="display: flex; align-items: flex-start; justify-content: center;">
+  <img alt="CRUD PRODUTOS" title="#CRUD PRODUTOS" src="./assets/AddProduct.jpeg" width="400px">
+
+  <img alt="CRUD PRODUTOS" title="#CRUD PRODUTOS" src="./assets/viewProduct.jpeg" width="400px">
+      <img alt="CRUD PRODUTOS" title="#CRUD PRODUTOS" src="./assets/updateProduct.jpeg" width="400px">
+
+</p>
 
 
 

@@ -1,23 +1,25 @@
-import { Dispatch, SetStateAction } from 'react'
+import { useContext} from 'react'
 import { Container, Title, Price, ContainerInfos, ContainerButtons, ContainerStarRating} from './style'
 import { api } from '../../api'
-import { Product } from '../../App';
+import { Product } from '../../context/Products';
 import { store } from 'react-notifications-component';
 import StarRatingComponent from 'react-star-rating-component';
+import { ModalContext } from '../../context/Modal'
+import { ProductsContext } from '../../context/Products'
 
 interface PropsCard{
     name:string;
     price:number;
     numberOfStars:number;
     urlImage:string;
-    setProducts:Dispatch<SetStateAction<Product[]>>;
-    setProductModal:Dispatch<SetStateAction<Product>>;
-    openModal:() => void;
-
 }
 
 // setAlter virar um context
-export const Card = ({ name,price, numberOfStars, urlImage, setProducts, setProductModal, openModal}: PropsCard) => {
+export const Card = ({ name, price, numberOfStars, urlImage}: PropsCard) => {
+    const { setModalState, setProductModal} = useContext(ModalContext)
+    const { setProducts } = useContext(ProductsContext)
+
+
     const handleDelete = () => {
         api.delete(`/product/${name}`)
         setProducts((oldState: Product[]) => oldState.filter(product => product.name != name))
@@ -58,7 +60,7 @@ export const Card = ({ name,price, numberOfStars, urlImage, setProducts, setProd
                         numberOfStars,
                         urlImage
                     })
-                    openModal() 
+                    setModalState(true) 
                 }} ></i>
                 <i className="fas fa-minus-circle" 
                    onClick={() => {

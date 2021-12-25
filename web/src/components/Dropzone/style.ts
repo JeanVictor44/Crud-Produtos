@@ -11,7 +11,7 @@ export const ContainerDropzone = styled.div<PropsContainerDropzone>`
     justify-content: center;
     align-items:center;
     max-width:100%;
-    height:${({height}) => height ? height : '100px'};
+    height:${({height}) => height ? `${height}px` : '100px'};
     border:2px dashed;
 
     img{

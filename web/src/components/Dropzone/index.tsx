@@ -28,7 +28,7 @@ export const Dropzone =  ({onFileUploaded, imageDefault, height}: PropsDropzone)
                 selectedFileUrl || imageDefault ? (
                     <img src={selectedFileUrl || imageDefault} /> 
                 ) :
-                <p>Adicione um arquivo aqui</p>
+                <p>Arraste uma imagem aqui</p>
             }
 
         </ContainerDropzone>
