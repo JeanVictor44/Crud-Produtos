@@ -6,6 +6,8 @@ import { store } from 'react-notifications-component';
 import StarRatingComponent from 'react-star-rating-component';
 import { ModalContext } from '../../context/Modal'
 import { ProductsContext } from '../../context/Products'
+import { ProductSearchContext } from '../../context/ProductSearch'
+
 
 interface PropsCard{
     name:string;
@@ -18,6 +20,7 @@ interface PropsCard{
 export const Card = ({ name, price, numberOfStars, urlImage}: PropsCard) => {
     const { setModalState, setProductModal} = useContext(ModalContext)
     const { setProducts } = useContext(ProductsContext)
+    const { setSearch } = useContext(ProductSearchContext)
 
 
     const handleDelete = () => {
@@ -66,6 +69,7 @@ export const Card = ({ name, price, numberOfStars, urlImage}: PropsCard) => {
                    onClick={() => {
                     handleDeleteNotification()
                     handleDelete()
+                    setSearch('')
                 }} ></i>
             </ContainerButtons>
             

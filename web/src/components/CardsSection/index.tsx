@@ -8,6 +8,7 @@ import { store } from 'react-notifications-component';
 import StarRatingComponent from 'react-star-rating-component'
 import ReactNotification from 'react-notifications-component'
 import { ProductsContext } from '../../context/Products'
+import { ProductSearchContext } from '../../context/ProductSearch'
 
 
 type BackProduct = {
@@ -19,6 +20,7 @@ type BackProduct = {
 
 export const CardsSection = ( ) => {
     const { products, setModified } = useContext(ProductsContext)
+    const { productFilter } = useContext(ProductSearchContext)
 
     const [ rating, setRating ] = useState(0)
     const [ price, setPrice ]= useState(0)
@@ -39,7 +41,6 @@ export const CardsSection = ( ) => {
             
         })
     }
-    
     const handleSuccessNotification = () => {
         store.addNotification({
             title:'Cadastro concluído',
@@ -111,9 +112,9 @@ export const CardsSection = ( ) => {
                 <button onClick={handleAddProduct}> Adicionar </button> 
             </CardAdd>
             {
-                products.length > 0  ? 
-                products.map(product => <Card {...product} />) : null  
-                
+                productFilter.length > 0  ? productFilter.map(product => <Card {...product} />)
+                                          : products.map(product => <Card {...product} />)   
+                                      
             }
         </Container>
         

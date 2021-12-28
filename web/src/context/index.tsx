@@ -2,6 +2,7 @@
 import { ReactNode } from "react";
 import { ProductsContextProvider } from "./Products";
 import { ModalContextProvider } from "./Modal";
+import { ProductSearchContextProvider} from './ProductSearch'
 
 interface PropsGlobalContext {
     children: ReactNode
@@ -11,7 +12,9 @@ export const GlobalContext = ({children}: PropsGlobalContext) => {
     return (
         <ProductsContextProvider>
             <ModalContextProvider>
-                {children}
+                <ProductSearchContextProvider>
+                    {children}
+                </ProductSearchContextProvider>
             </ModalContextProvider>
         </ProductsContextProvider>
     )
